@@ -7,7 +7,7 @@ class Persona {
         this.edad = edad;
     }
 
-    presentarse(nombre){
+    presentarse(){
         return "Hola, un gusto, soy " + this.nombre + " y tengo " + this.edad + " años.";
     }
 

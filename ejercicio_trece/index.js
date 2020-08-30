@@ -31,14 +31,19 @@ class Profesor extends Persona{
     constructor(nombre, edad, estudiantes){ 
         super(nombre, edad);
         this.estudiantes = estudiantes;
-        this.addEstudiante = this.addEstudiante.bind(this)
     }
+
     addEstudiante(estudiante){
         estudiante.setProfesor(this.nombre);
        this.estudiantes.push(estudiante);
     }
-}
 
+    enseñando(){
+        for (let estudiante of this.estudiantes){
+            console.log("enseñando a " + estudiante.nombre);
+        }
+    }
+}
 
 estudiantes1 = [
     new Estudiante("Pepe", 15),
@@ -53,15 +58,14 @@ estudiantes2 = [
     new Estudiante("Pupu", 12)
 ];
 
-
 prof1 = new Profesor("Prof. Garccia", 60, estudiantes1);
 prof2 = new Profesor("Prof. Lopez", 50, estudiantes2);
 
-for (estudiante of estudiantes1){
+for (let estudiante of estudiantes1){
     estudiante.setProfesor(prof1.nombre);
 }
 
-for (estudiante of estudiantes2){
+for (let estudiante of estudiantes2){
     estudiante.setProfesor(prof2.nombre);
 }
 
@@ -74,12 +78,15 @@ console.log(prof2.estudiantes);
 console.log(prof1.presentarse());
 console.log(prof2.presentarse());
 
-for (estudiante of estudiantes1){
+for (let estudiante of estudiantes1){
     console.log(estudiante.presentarse());
     console.log(estudiante.estudiando());
 }
 
-for (estudiante of estudiantes2){
+for (let estudiante of estudiantes2){
     console.log(estudiante.presentarse());
     console.log(estudiante.estudiando());
 }
+
+prof1.enseñando();
+prof2.enseñando();

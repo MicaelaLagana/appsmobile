@@ -5,19 +5,23 @@ const options = {
 };
 
 function getBook(bookID, format) {
-     options.url += bookID + format;
-     return new Promise((resolve, reject) => {
-        request(options.url, (error, response) => {
-          if (error || !response) reject(error);
-          resolve(response);
-        });
-    });
+    options.url += bookID + format;
+    return new Promise((resolve, reject) => {
+       request(options.url, (error, response) => {
+           if (error || response.statusCode != 200) {
+               reject(error);
+           } else {
+               resolve(JSON.parse(response.body));
+           }
+       });
+   });
 }
 
 function main() {
-    getBook("OL7353617M", ".json").then((error, book) => {
-        if (error) return console.log("no se encontro el libro");
+    getBook("OL45883W", ".json").then(book => {
         console.log("Titulo: "  + book.title + ", Autor: " + book.subject_people[3] + ", Descripcion: " + book.description.value);
+    }).catch(() => {
+        console.log("no se encontro el libro");
     })
 }
 

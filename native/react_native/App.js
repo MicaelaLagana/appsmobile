@@ -1,13 +1,12 @@
-
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
 import { StyleSheet, TextInput, Button, View, Text } from 'react-native';
 
-options = {
-  url: 'https://cat-fact.herokuapp.com/facts'
-};
 
 export default class App extends Component {
+  options = {
+    url: 'https://cat-fact.herokuapp.com/facts'
+  };
 
   state = {
     fact: "",
@@ -26,14 +25,10 @@ export default class App extends Component {
 };
   
   getFact(){
-    return new Promise((resolve, reject) => {
-      request(options.url, (error, response) => {
-          if (error || response.statusCode !== 200) {
-            reject(error);
-          } else {
-            resolve(JSON.parse(response.body));
-          }
-       });
+    return new Promise((resolve, reject) =>{
+      fetch(options.url).then(rta => {
+          resolve(rta.json())
+      });
     });
   }
   
@@ -48,6 +43,7 @@ export default class App extends Component {
     console.log(random);
     this.setState({ isConsumed: true }); 
     this.getFact().then(f => {
+      console.log(f);
       console.log(f.all[random]);
       this.setState({ fact: f.all[random].text });
     }).catch(() => {
@@ -107,9 +103,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  baseText: {
-    fontFamily: "roboto"
-  },
   titleText: {
     fontSize: 50,
     fontWeight: "bold"
@@ -117,19 +110,16 @@ const styles = StyleSheet.create({
   normalText: {
     fontSize: 10,
     fontWeight: "bold",
-    fontFamily: "roboto",
     justifyContent: 'center',
   },
   normalText: {
     fontSize: 15,
     fontWeight: "bold",
-    fontFamily: "roboto",
     justifyContent: 'center',
   },
   factText: {
     fontSize: 18,
     fontWeight: "bold",
-    fontFamily: "roboto",
     justifyContent: 'center',
   },
 });

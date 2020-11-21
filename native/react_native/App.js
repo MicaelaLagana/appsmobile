@@ -47,6 +47,7 @@ export default class App extends Component {
       console.log(f.all[random]);
       this.setState({ fact: f.all[random].text });
     }).catch(() => {
+      reject();
       this.setState({ fact: "No fact for u, sowwy u^u" });
     })
   }

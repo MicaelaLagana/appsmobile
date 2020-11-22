@@ -1,34 +1,36 @@
+
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
 import { StyleSheet, TextInput, Button, View, Text } from 'react-native';
 
 
 export default class App extends Component {
-  options = {
+
+  constructor(props){
+  super(props);
+  this.options = {
     url: 'https://cat-fact.herokuapp.com/facts'
   };
-
-  state = {
+  this.state = {
     fact: "",
     apiConsumed: false,
     txt: "",
     name: "",
-    phrase: ""
+    phrase: "",
+    finalString: ""
   };
-
-  constructor(props){
-  super(props);
   this.handlerButton = this.handlerButton.bind(this);
   this.handlerText = this.handlerText.bind(this);
   this.getFact = this.getFact.bind(this);
   this.getRandomInt = this.getRandomInt.bind(this);
+
 };
   
+
   getFact(){
-    return new Promise((resolve, reject) =>{
-      fetch(options.url).then(rta => {
-          resolve(rta.json())
-      });
+    return new Promise((resolve, reject) => {
+      fetch(this.options.url).then(r => 
+        resolve(r.json()))
     });
   }
   
@@ -37,23 +39,21 @@ export default class App extends Component {
   }
 
   handlerButton(){
-    console.log("why isnt this workiiiiiiing");
     console.log(this.state.txt);
     var random = this.getRandomInt(0, 285);
     console.log(random);
     this.setState({ isConsumed: true }); 
     this.getFact().then(f => {
-      console.log(f);
       console.log(f.all[random]);
       this.setState({ fact: f.all[random].text });
     }).catch(() => {
-      reject();
       this.setState({ fact: "No fact for u, sowwy u^u" });
     })
+    this.setState({ finalString: this.state.phrase + " \n" + this.state.fact});
+    //Preguntar como manejar los estados para no tener que apretar dos veces el boton para que se muestre la frase
   }
 
   handlerText(text){
-    console.log("escribieron: " + text);
     this.setState({txt: text});
     console.log(this.state.txt);
     this.setState({phrase: "did u know, " + text});
@@ -86,10 +86,7 @@ export default class App extends Component {
         />      
          <Text style={this.factText}>
             {"\n"}
-            {this.state.phrase}
-            {"\n"}
-            {"\n"}
-            {this.state.fact}
+            {this.state.finalString}
             {"\n"}
         </Text> 
       </View>
